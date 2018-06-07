@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>About weather : Recommend dressing</title>
+	<meta name="description" content="Blueprint: A responsive product grid layout with touch-friendly Flickity galleries and Isotope-powered filter functionality." />
+	<meta name="keywords" content="blueprint, template, layout, grid, responsive, products, store, filter, isotope, flickity" />
+	<meta name="author" content="Codrops" />
+	<link rel="shortcut icon" href="favicon.ico">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+	<!-- Pixel Fabric clothes icons -->
+	<link rel="stylesheet" type="text/css" href="fonts/pixelfabric-clothes/style.css" />
+	<!-- General demo styles & header -->
+	<link rel="stylesheet" type="text/css" href="css/demo.css" />
+	 <!-- Flickity gallery styles -->
+	<link rel="stylesheet" type="text/css" href="css/flickity.css" />
+	<!-- Component styles -->
+	<link rel="stylesheet" type="text/css" href="css/component.css" />
+	<link rel="stylesheet" type="text/css" href="css/button.css" />
+	<script src="js/modernizr.custom.js"></script>
+
+	<!-- Main view -->
+	<div class="view">
+		<!-- Blueprint header -->
+		<header class="bp-header cf">
+			<span>Weather <span class="bp-icon bp-icon-about" data-content="The Blueprints are a collection of basic and minimal website concepts, components, plugins and layouts with minimal style for easy adaption and usage, or simply for inspiration."></span></span>
+			<h1>Recommend dressing <span>Where are you now? </span></h1>
+
+		<div class="back">
+    <div id ="getWeather" class="button_base b06_3d_swap" value = "OFF">
+        <div>How's the weather</div>
+        <div>How's the weather</div>
+			</div>
+		</div>
+	</div>
+			<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+		</header>
+
+		<!-- Bottom bar with filter and cart info -->
+		<div class="bar">
+			<div class="filter">
+				<span class="filter__label">Filter: </span>
+				<button class="action filter__item filter__item--selected" data-filter="*">All</button>
+				<button class="action filter__item" data-filter=".spring"><i class="icon icon--spring"></i><span class="action__text">Spring</span></button>
+				<button class="action filter__item" data-filter=".spring2"><i class="icon icon--spring2"></i><span class="action__text">Spring2</span></button>
+				<button class="action filter__item" data-filter=".summer"><i class="icon icon--summer"></i><span class="action__text">Summer</span></button>
+				<button class="action filter__item" data-filter=".summer2"><i class="icon icon--summer2"></i><span class="action__text">Summer2</span></button>
+				<button class="action filter__item" data-filter=".autumn"><i class="icon icon--autumn"></i><span class="action__text">Autumn</span></button>
+				<button class="action filter__item" data-filter=".autumn2"><i class="icon icon--autumn2"></i><span class="action__text">Autumn2</span></button>
+				<button class="action filter__item" data-filter=".winter"><i class="icon icon--winter"></i><span class="action__text">Winter</span></button>
+				<button class="action filter__item" data-filter=".winter2"><i class="icon icon--winter2"></i><span class="action__text">Winter2</span></button>
+
+			</div>
+			<button class="cart">
+				<i class="cart__icon fa fa-shopping-cart"></i>
+				<span class="text-hidden">Shopping cart</span>
+				<span class="cart__count">0</span>
+			</button>
+		</div>
+
+</head>
+
+<body>
+
+<script>
+
+$("#getWeather").click(function() {
+
+  var lat, lon;
+    lat = 37.1373888900;
+    lon = 127.0657778000;
+
+  $.ajax({
+
+    url:'https://api2.sktelecom.com/weather/current/minutely?version=1&' + "lat="+lat+"&lon="+lon,
+    headers: { appKey : "a6e79dea-d294-4b5f-a08a-82eee06a2faf" },
+    success:function(data) {
+      console.log(data);
+			recommend(data);
+      /*$("#div").html("현재기온" + data.weather.minutely[0].temperature.tc+"<br>"+
+    "최고기온:" + data.weather.minutely[0].temperature.tmax+"<br>"+
+  "최저기온:" + data.weather.minutely[0].temperature.tmin+"<br>"+
+"하늘상태:" + data.weather.minutely[0].sky.name)*/
+    }
+  });
+
+	function recommend(data) {
+
+		var value = $("#getWeather").attr("value");
+
+		//document.getElementById("temperature2").innerHTML= data.weather.minutely[0].temperature.tc;
+		if( data.weather.minutely[0].temperature.tc >=28 && value =="OFF") {
+
+			$("#2").hide(1000);$("#3").hide(1000);$("#4").hide(1000);$("#5").hide(1000);$("#6").hide(1000);
+			$("#7").hide(1000);$("#8").hide(1000);
+
+			document.getElementById("second").innerHTML= "현재기온 : "+ data.weather.minutely[0].temperature.tc +"<br>"+ "Recommend" +"<br>"+ "민소매, 반팔, 반바지, 원피스"
+
+			$("#getWeather").attr("value", "ON");
+		}
+
+		else if(data.weather.minutely[0].temperature.tc >=28 && value == "ON" ){
+
+			$("#2").show(1000);$("#3").show(1000);$("#4").show(1000);$("#5").show(1000);$("#6").show(1000);
+			$("#7").show(1000);$("#8").show(1000);
+
+			document.getElementById("second").innerHTML= "";
+
+			$("#getWeather").attr("value", "OFF");
+		}
+
+		else if( data.weather.minutely[0].temperature.tc >=23 && data.weather.minutely[0].temperature.tc <28 && value =="OFF") {
+
+			$("#1").hide(1000);$("#3").hide(1000);$("#4").hide(1000);$("#5").hide(1000);$("#6").hide(1000);
+			$("#7").hide(1000);$("#8").hide(1000);
+
+			document.getElementById("second").innerHTML= "현재기온 : "+ data.weather.minutely[0].temperature.tc +"<br>"+ "Recommend" +"<br>"+ "반팔, 얇은 셔츠, 반바지, 면바지"
+
+			$("#getWeather").attr("value", "ON");
+		}
+
+		else if( data.weather.minutely[0].temperature.tc >=23 && data.weather.minutely[0].temperature.tc <28 && value == "ON" ){
+
+			$("#1").show(1000);$("#3").show(1000);$("#4").show(1000);$("#5").show(1000);$("#6").show(1000);
+			$("#7").show(1000);$("#8").show(1000);
+
+			document.getElementById("second").innerHTML= "";
+
+			$("#getWeather").attr("value", "OFF");
+		}
+
+		else if( data.weather.minutely[0].temperature.tc >=20 && data.weather.minutely[0].temperature.tc <23 && value =="OFF") {
+
+			$("#1").hide(1000);$("#2").hide(1000);$("#4").hide(1000);$("#5").hide(1000);$("#6").hide(1000);
+			$("#7").hide(1000);$("#8").hide(1000);
+
+			document.getElementById("second").innerHTML= "현재기온 : "+ data.weather.minutely[0].temperature.tc +"<br>"+ "Recommend" +"<br>"+ "얇은 가디건, 긴팔, 면바지, 청바지"
+
+			$("#getWeather").attr("value", "ON");
+		}
+
+		else if( data.weather.minutely[0].temperature.tc >=20 && data.weather.minutely[0].temperature.tc <23 && value == "ON" ){
+
+			$("#1").show(1000);$("#2").show(1000);$("#4").show(1000);$("#5").show(1000);$("#6").show(1000);
+			$("#7").show(1000);$("#8").show(1000);
+
+			document.getElementById("second").innerHTML= "";
+
+			$("#getWeather").attr("value", "OFF");
+		}
+
+		else if( data.weather.minutely[0].temperature.tc >=17 && data.weather.minutely[0].temperature.tc <20 && value =="OFF") {
+
+			$("#1").hide(1000);$("#3").hide(1000);$("#2").hide(1000);$("#5").hide(1000);$("#6").hide(1000);
+			$("#7").hide(1000);$("#8").hide(1000);
+
+			$("#getWeather").attr("value", "ON");
+		}
+
+		else if( data.weather.minutely[0].temperature.tc >=17 && data.weather.minutely[0].temperature.tc <20 && value == "ON" ){
+
+			$("#1").show(1000);$("#3").show(1000);$("#2").show(1000);$("#5").show(1000);$("#6").show(1000);
+			$("#7").show(1000);$("#8").show(1000);
+
+			$("#getWeather").attr("value", "OFF");
+		}
+
+		else if( data.weather.minutely[0].temperature.tc >=12 && data.weather.minutely[0].temperature.tc <17 && value =="OFF") {
+
+			$("#1").hide(1000);$("#3").hide(1000);$("#4").hide(1000);$("#2").hide(1000);$("#6").hide(1000);
+			$("#7").hide(1000);$("#8").hide(1000);
+
+			$("#getWeather").attr("value", "ON");
+		}
+
+		else if( data.weather.minutely[0].temperature.tc >=12 && data.weather.minutely[0].temperature.tc <17 && value == "ON" ){
+
+			$("#1").show(1000);$("#3").show(1000);$("#4").show(1000);$("#2").show(1000);$("#6").show(1000);
+			$("#7").show(1000);$("#8").show(1000);
+
+			$("#getWeather").attr("value", "OFF");
+		}
+
+		else if( data.weather.minutely[0].temperature.tc >=9 && data.weather.minutely[0].temperature.tc <12 && value =="OFF") {
+
+			$("#1").hide(1000);$("#3").hide(1000);$("#4").hide(1000);$("#5").hide(1000);$("#2").hide(1000);
+			$("#7").hide(1000);$("#8").hide(1000);
+
+			$("#getWeather").attr("value", "ON");
+		}
+
+		else if( data.weather.minutely[0].temperature.tc >=9 && data.weather.minutely[0].temperature.tc <12 && value == "ON" ){
+
+			$("#1").show(1000);$("#3").show(1000);$("#4").show(1000);$("#5").show(1000);$("#2").show(1000);
+			$("#7").show(1000);$("#8").show(1000);
+
+			$("#getWeather").attr("value", "OFF");
+		}
+
+		else if( data.weather.minutely[0].temperature.tc >=5 && data.weather.minutely[0].temperature.tc <9 && value =="OFF") {
+
+			$("#1").hide(1000);$("#3").hide(1000);$("#4").hide(1000);$("#5").hide(1000);$("#6").hide(1000);
+			$("#2").hide(1000);$("#8").hide(1000);
+
+			$("#getWeather").attr("value", "ON");
+		}
+
+		else if( data.weather.minutely[0].temperature.tc >=5 && data.weather.minutely[0].temperature.tc <9 && value == "ON" ){
+
+			$("#1").show(1000);$("#3").show(1000);$("#4").show(1000);$("#5").show(1000);$("#6").show(1000);
+			$("#2").show(1000);$("#8").show(1000);
+
+			$("#getWeather").attr("value", "OFF");
+		}
+
+		else if( data.weather.minutely[0].temperature.tc < 5 && value =="OFF") {
+
+			$("#1").hide(1000);$("#3").hide(1000);$("#4").hide(1000);$("#5").hide(1000);$("#6").hide(1000);
+			$("#7").hide(1000);$("#2").hide(1000);
+
+			$("#getWeather").attr("value", "ON");
+		}
+
+		else if( data.weather.minutely[0].temperature.tc < 5 && value == "ON" ){
+
+			$("#1").show(1000);$("#3").show(1000);$("#4").show(1000);$("#5").show(1000);$("#6").show(1000);
+			$("#7").show(1000);$("#2").show(1000);
+
+			$("#getWeather").attr("value", "OFF");
+		}
+	}
+})
+  </script>
+
+		<!-- Grid -->
+		<div id = "second" style= "height: 10%;width:100%;text-align:center;font:bold 5em 돋음체;margin-top:20px"></div>
+		<div id = "first" style= "height: 90%;width:100%;">
+		<section class="grid grid--loading">
+			<!-- Loader -->
+			<img class="grid__loader" src="images/grid.svg" width="60" alt="Loader image" />
+			<!-- Grid sizer for a fluid Isotope (Masonry) layout -->
+			<div class="grid__sizer"></div>
+			<!-- Grid items -->
+
+			<!-- summer summer2 spring spring2 autumn autumn2 winter winter2 -->
+
+			<div id = "1">
+				<div id = "summer" class="grid__item summer">
+					<div class="slider">
+						<div class="slider__item"><img src="images/dress.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/dress.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/dress.png" alt="Dummy" /></div>
+					</div>
+					<div class="meta">
+						<h3 class="meta__title">dress</h3>
+					</div>
+					<button class="action action--button action--buy"><i class="fa fa-shopping-cart"></i><span class="text-hidden">Add to cart</span></button>
+				</div>
+				<div id = "summer" class="grid__item summer">
+					<div class="slider">
+						<div class="slider__item"><img src="images/trousers.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/trousers.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/trousers.png" alt="Dummy" /></div>
+					</div>
+					<div class="meta">
+						<h3 class="meta__title">trouser</h3>
+					</div>
+					<button class="action action--button action--buy"><i class="fa fa-shopping-cart"></i><span class="text-hidden">Add to cart</span></button>
+				</div>
+				<div id = "summer" class="grid__item summer">
+					<div class="slider">
+						<div class="slider__item"><img src="images/slippers.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/slippers.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/slippers.png" alt="Dummy" /></div>
+					</div>
+					<div class="meta">
+						<h3 class="meta__title">Slippers</h3>
+					</div>
+					<button class="action action--button action--buy"><i class="fa fa-shopping-cart"></i><span class="text-hidden">Add to cart</span></button>
+				</div>
+				<div id = "summer" class="grid__item summer">
+					<div class="slider">
+						<div class="slider__item"><img src="images/shirt2.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/shirt2.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/shirt2.png" alt="Dummy" /></div>
+					</div>
+					<div class="meta">
+						<h3 class="meta__title">T-Shirt</h3>
+					</div>
+					<button class="action action--button action--buy"><i class="fa fa-shopping-cart"></i><span class="text-hidden">Add to cart</span></button>
+				</div>
+			</div>
+
+			<div id = "2">
+				<div id = "summer2" class="grid__item summer2">
+					<div class="slider">
+						<div class="slider__item"><img src="images/tshirt.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/tshirt.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/tshirt.png" alt="Dummy" /></div>
+					</div>
+					<div class="meta">
+						<h3 class="meta__title">T-Shirt</h3>
+					</div>
+					<button class="action action--button action--buy"><i class="fa fa-shopping-cart"></i><span class="text-hidden">Add to cart</span></button>
+				</div>
+
+				<div id = "summer2" class="grid__item summer2">
+					<div class="slider">
+						<div class="slider__item"><img src="images/tshirt2.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/tshirt2.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/tshirt2.png" alt="Dummy" /></div>
+					</div>
+					<div class="meta">
+						<h3 class="meta__title">T-Shirt</h3>
+					</div>
+					<button class="action action--button action--buy"><i class="fa fa-shopping-cart"></i><span class="text-hidden">Add to cart</span></button>
+				</div>
+				<div id = "summer2" class="grid__item summer2">
+					<div class="slider">
+						<div class="slider__item"><img src="images/jeans.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/jeans.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/jeans.png" alt="Dummy" /></div>
+					</div>
+					<div class="meta">
+						<h3 class="meta__title">Jeans</h3>
+					</div>
+					<button class="action action--button action--buy"><i class="fa fa-shopping-cart"></i><span class="text-hidden">Add to cart</span></button>
+				</div>
+
+			</div>
+			<div id = "3">
+				<div id = "spring" class="grid__item spring">
+					<div class="slider">
+						<div class="slider__item"><img src="images/pants1.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/pants1.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/pants1.png" alt="Dummy" /></div>
+					</div>
+					<div class="meta">
+						<h3 class="meta__title">Pants</h3>
+					</div>
+					<button class="action action--button action--buy"><i class="fa fa-shopping-cart"></i><span class="text-hidden">Add to cart</span></button>
+				</div>
+
+				<div id = "spring" class="grid__item spring">
+					<div class="slider">
+						<div class="slider__item"><img src="images/tshirt3.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/tshirt3.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/tshirt3.png" alt="Dummy" /></div>
+					</div>
+					<div class="meta">
+						<h3 class="meta__title">T-Shirt</h3>
+					</div>
+					<button class="action action--button action--buy"><i class="fa fa-shopping-cart"></i><span class="text-hidden">Add to cart</span></button>
+				</div>
+
+				<div id = "spring" class="grid__item spring">
+					<div class="slider">
+						<div class="slider__item"><img src="images/cardigan.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/cardigan.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/cardigan.png" alt="Dummy" /></div>
+					</div>
+					<div class="meta">
+						<h3 class="meta__title">Cardigan</h3>
+					</div>
+					<button class="action action--button action--buy"><i class="fa fa-shopping-cart"></i><span class="text-hidden">Add to cart</span></button>
+				</div>
+
+				<div id = "spring" class="grid__item spring">
+					<div class="slider">
+						<div class="slider__item"><img src="images/skirt.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/skirt.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/skirt.png" alt="Dummy" /></div>
+					</div>
+					<div class="meta">
+						<h3 class="meta__title">skirt</h3>
+					</div>
+					<button class="action action--button action--buy"><i class="fa fa-shopping-cart"></i><span class="text-hidden">Add to cart</span></button>
+				</div>
+
+				<div id = "spring" class="grid__item spring">
+					<div class="slider">
+						<div class="slider__item"><img src="images/shoe.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/shoe.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/shoe.png" alt="Dummy" /></div>
+					</div>
+					<div class="meta">
+						<h3 class="meta__title">shoes</h3>
+					</div>
+					<button class="action action--button action--buy"><i class="fa fa-shopping-cart"></i><span class="text-hidden">Add to cart</span></button>
+				</div>
+			</div>
+			<div id = "4">
+				<div id = "spring2" class="grid__item spring2">
+					<div class="slider">
+						<div class="slider__item"><img src="images/shirt.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/shirt.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/shirt.png" alt="Dummy" /></div>
+					</div>
+					<div class="meta">
+						<h3 class="meta__title">shirt</h3>
+					</div>
+					<button class="action action--button action--buy"><i class="fa fa-shopping-cart"></i><span class="text-hidden">Add to cart</span></button>
+				</div>
+
+				<div id = "spring2" class="grid__item spring2">
+					<div class="slider">
+						<div class="slider__item"><img src="images/shirt3.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/shirt3.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/shirt3.png" alt="Dummy" /></div>
+					</div>
+					<div class="meta">
+						<h3 class="meta__title">Shirt</h3>
+					</div>
+					<button class="action action--button action--buy"><i class="fa fa-shopping-cart"></i><span class="text-hidden">Add to cart</span></button>
+				</div>
+
+				<div id = "spring2" class="grid__item spring2">
+					<div class="slider">
+						<div class="slider__item"><img src="images/long-trousers.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/long-trousers.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/long-trousers.png" alt="Dummy" /></div>
+					</div>
+					<div class="meta">
+						<h3 class="meta__title">Long Trouser</h3>
+					</div>
+					<button class="action action--button action--buy"><i class="fa fa-shopping-cart"></i><span class="text-hidden">Add to cart</span></button>
+				</div>
+				<div id = "spring2" class="grid__item spring2">
+					<div class="slider">
+						<div class="slider__item"><img src="images/shirt4.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/shirt4.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/shirt4.png" alt="Dummy" /></div>
+					</div>
+					<div class="meta">
+						<h3 class="meta__title">T-Shirt</h3>
+					</div>
+					<button class="action action--button action--buy"><i class="fa fa-shopping-cart"></i><span class="text-hidden">Add to cart</span></button>
+				</div>
+			</div>
+			<div id = "5">
+				<div id = "autumn" class="grid__item autumn">
+					<div class="slider">
+						<div class="slider__item"><img src="images/wind-jacket.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/wind-jacket.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/wind-jacket.png" alt="Dummy" /></div>
+					</div>
+					<div class="meta">
+						<h3 class="meta__title">Wind Jacket</h3>
+					</div>
+					<button class="action action--button action--buy"><i class="fa fa-shopping-cart"></i><span class="text-hidden">Add to cart</span></button>
+				</div>
+
+				<div id = "autumn" class="grid__item autumn">
+					<div class="slider">
+						<div class="slider__item"><img src="images/pants3.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/pants3.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/pants3.png" alt="Dummy" /></div>
+					</div>
+					<div class="meta">
+						<h3 class="meta__title">Pants</h3>
+					</div>
+					<button class="action action--button action--buy"><i class="fa fa-shopping-cart"></i><span class="text-hidden">Add to cart</span></button>
+				</div>
+
+				<div id = "autumn" class="grid__item autumn">
+					<div class="slider">
+						<div class="slider__item"><img src="images/coat2.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/coat2.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/coat2.png" alt="Dummy" /></div>
+					</div>
+					<div class="meta">
+						<h3 class="meta__title">Coat</h3>
+					</div>
+					<button class="action action--button action--buy"><i class="fa fa-shopping-cart"></i><span class="text-hidden">Add to cart</span></button>
+				</div>
+				<div id = "autumn" class="grid__item autumn">
+					<div class="slider">
+						<div class="slider__item"><img src="images/heels.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/heels.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/heels.png" alt="Dummy" /></div>
+					</div>
+					<div class="meta">
+						<h3 class="meta__title">Heels</h3>
+					</div>
+					<button class="action action--button action--buy"><i class="fa fa-shopping-cart"></i><span class="text-hidden">Add to cart</span></button>
+				</div>
+				<div id = "autumn" class="grid__item autumn">
+					<div class="slider">
+						<div class="slider__item"><img src="images/shirt.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/shirt.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/shirt.png" alt="Dummy" /></div>
+					</div>
+					<div class="meta">
+						<h3 class="meta__title">Dummy shirt</h3>
+					</div>
+					<button class="action action--button action--buy"><i class="fa fa-shopping-cart"></i><span class="text-hidden">Add to cart</span></button>
+				</div>
+			</div>
+			<div id = "6">
+				<div id = "autumn2" class="grid__item autumn2">
+
+					<div class="slider">
+						<div class="slider__item"><img src="images/denim-jacket.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/denim-jacket.png" alt="Dummy" /></div>
+					</div>
+					<div class="meta">
+						<h3 class="meta__title">Denim-Jacket</h3>
+					</div>
+					<button class="action action--button action--buy"><i class="fa fa-shopping-cart"></i><span class="text-hidden">Add to cart</span></button>
+				</div>
+
+				<div id = "autumn2" class="grid__item autumn2">
+
+					<div class="slider">
+						<div class="slider__item"><img src="images/trench-coat.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/trench-coat.png" alt="Dummy" /></div>
+					</div>
+					<div class="meta">
+						<h3 class="meta__title">Trench-Coat</h3>
+					</div>
+					<button class="action action--button action--buy"><i class="fa fa-shopping-cart"></i><span class="text-hidden">Add to cart</span></button>
+				</div>
+
+				<div id = "autumn2" class="grid__item autumn2">
+
+					<div class="slider">
+						<div class="slider__item"><img src="images/long-pants.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/long-pants.png" alt="Dummy" /></div>
+					</div>
+					<div class="meta">
+						<h3 class="meta__title">Long-pants</h3>
+					</div>
+					<button class="action action--button action--buy"><i class="fa fa-shopping-cart"></i><span class="text-hidden">Add to cart</span></button>
+				</div>
+			</div>
+			<div id = "7">
+				<div id = "winter" class="grid__item winter">
+					<div class="slider">
+						<div class="slider__item"><img src="images/scarf.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/scarf.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/scarf.png" alt="Dummy" /></div>
+					</div>
+					<div class="meta">
+						<h3 class="meta__title">Scarf</h3>
+					</div>
+					<button class="action action--button action--buy"><i class="fa fa-shopping-cart"></i><span class="text-hidden">Add to cart</span></button>
+				</div>
+				<div id = "winter" class="grid__item winter">
+					<div class="slider">
+						<div class="slider__item"><img src="images/coat.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/coat.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/coat.png" alt="Dummy" /></div>
+					</div>
+					<div class="meta">
+						<h3 class="meta__title">Coat</h3>
+					</div>
+					<button class="action action--button action--buy"><i class="fa fa-shopping-cart"></i><span class="text-hidden">Add to cart</span></button>
+				</div>
+				<div id = "winter" class="grid__item winter">
+					<div class="slider">
+						<div class="slider__item"><img src="images/sweater.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/sweater.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/sweater.png" alt="Dummy" /></div>
+					</div>
+					<div class="meta">
+						<h3 class="meta__title">Sweater</h3>
+					</div>
+					<button class="action action--button action--buy"><i class="fa fa-shopping-cart"></i><span class="text-hidden">Add to cart</span></button>
+				</div>
+
+			</div>
+			<div id = "8">
+				<div id = "winter2" class="grid__item winter2">
+					<div class="slider">
+						<div class="slider__item"><img src="images/padding.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/padding.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/padding.png" alt="Dummy" /></div>
+					</div>
+					<div class="meta">
+						<h3 class="meta__title">Padding</h3>
+					</div>
+					<button class="action action--button action--buy"><i class="fa fa-shopping-cart"></i><span class="text-hidden">Add to cart</span></button>
+				</div>
+				<div id = "winter2" class="grid__item winter2">
+					<div class="slider">
+						<div class="slider__item"><img src="images/mittens.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/mittens.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/mittens.png" alt="Dummy" /></div>
+					</div>
+					<div class="meta">
+						<h3 class="meta__title">Mittens</h3>
+					</div>
+					<button class="action action--button action--buy"><i class="fa fa-shopping-cart"></i><span class="text-hidden">Add to cart</span></button>
+				</div>
+
+				<div id = "winter2" class="grid__item winter2">
+					<div class="slider">
+						<div class="slider__item"><img src="images/santa-claus.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/santa-claus.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/santa-claus.png" alt="Dummy" /></div>
+					</div>
+					<div class="meta">
+						<h3 class="meta__title">Winter Hat</h3>
+					</div>
+
+					<button class="action action--button action--buy"><i class="fa fa-shopping-cart"></i><span class="text-hidden">Add to cart</span></button>
+				</div>
+
+				<div id = "winter2" class="grid__item winter2">
+					<div class="slider">
+						<div class="slider__item"><img src="images/boot.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/boot.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/boot.png" alt="Dummy" /></div>
+					</div>
+					<div class="meta">
+						<h3 class="meta__title">Boot</h3>
+					</div>
+					<button class="action action--button action--buy"><i class="fa fa-shopping-cart"></i><span class="text-hidden">Add to cart</span></button>
+				</div>
+
+				<div id = "winter2" class="grid__item winter2">
+					<div class="slider">
+						<div class="slider__item"><img src="images/jacket2.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/jacket2.png" alt="Dummy" /></div>
+						<div class="slider__item"><img src="images/jacket2.png" alt="Dummy" /></div>
+					</div>
+					<div class="meta">
+						<h3 class="meta__title">Jacket</h3>
+					</div>
+					<button class="action action--button action--buy"><i class="fa fa-shopping-cart"></i><span class="text-hidden">Add to cart</span></button>
+				</div>
+			</div>
+		</section>
+		<!-- /grid-->
+	</div>
+
+	<!-- /view -->
+	<script src="js/isotope.pkgd.min.js"></script>
+	<script src="js/flickity.pkgd.min.js"></script>
+	<script src="js/main.js"></script>
+</body>
+</html>
